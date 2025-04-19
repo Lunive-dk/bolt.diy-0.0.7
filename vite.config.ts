@@ -11,6 +11,13 @@ import { join } from 'path';
 
 dotenv.config();
 
+// Suppress all errors and warnings
+if (process.env.NODE_ENV !== 'development') {
+  // Mute all console errors and warnings in production mode
+  console.error = () => {};
+  console.warn = () => {};
+}
+
 // Get detailed git info with fallbacks
 const getGitInfo = () => {
   try {
@@ -93,6 +100,7 @@ export default defineConfig((config) => {
     build: {
       target: 'esnext',
     },
+    logLevel: 'silent', // <-- This line suppresses logs
     plugins: [
       nodePolyfills({
         include: ['path', 'buffer', 'process'],
